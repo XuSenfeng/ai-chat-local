@@ -1,0 +1,12 @@
+{
+    "idf.adapterTargetName": "esp32c3",
+    "idf.openOcdConfigs": [
+        "board/esp32c3-ftdi.cfg"
+    ],
+    "idf.flashType": "UART",
+    "idf.portWin": "COM3",
+    "files.associations": {
+        "mp3_decoder.h": "c"
+    },
+    "idf.port": "/dev/ttyACM0"
+}
