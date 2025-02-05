@@ -1,27 +1,22 @@
 
-
-from langchain.agents import initialize_agent, Tool
-from langchain.agents import AgentType
-# from langchain_ollama import ChatOllama, OllamaEmbeddings
+# 用于搜索网络的模块
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_openai import ChatOpenAI
-import json
-
 import os
-from file_dealing import ChatDoc
-os.environ["TAVILY_API_KEY"] = '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'
-os.environ["LANGSMITH_API_KEY"] = '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'
-os.environ["OPENAI_API_KEY"] = "sk-aDGXndwdtlbhyC1pmepw4zpqHgYkgfBh4Ayhgua829avT01l"
 
-
+os.environ["TAVILY_API_KEY"] = ''
+os.environ["LANGSMITH_API_KEY"] = ''
+os.environ["OPENAI_API_KEY"] = ""
+# 使用的不是文档里面免费的API时候可能需要更改
+os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
 
 
 os.environ["LANGSMITH_TRACING"]='true'
 os.environ["LANGSMITH_ENDPOINT"]="https://api.smith.langchain.com"
 os.environ["LANGSMITH_PROJECT"]="test"
-os.environ['USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0"
-os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
+os.environ['USER_AGENT'] = ""
+
 
 
 from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader
@@ -107,12 +102,8 @@ class search_Moel:
 
 
 if __name__ == "__main__":
-    # agent_executor = search_init()
-    # print(search_func(agent_executor, "查一下项目手册看看这个项目是谁做的"))
     agent = search_Moel()
     print(agent.search_func("查一下项目手册看看这个项目是谁做的"))
     print(agent.search_func("我想知道iphone 15的价格"))
     print(agent.search_func("我想知道最近的小孩用鞭炮炸豪车的新闻"))
-    # file_dealing_init()
-    # search_init()
 

@@ -5,7 +5,9 @@ import chat_local
 from classfy_model import Classfy
 import os
 import socket
+
 os.environ['KMP_DUPLICATE_LIB_OK']='TRUE'
+
 # 192.168.188.165
 data = {'result': ''}
 def get_ip():
@@ -21,14 +23,9 @@ def get_ip():
 
 class http_chat_server:
     def __init__(self):
-        self.host = get_ip()
         self.agent_executor = search_internet.search_Moel()
         self.local_executor = chat_local.chat_furina()
-        # self.chat = file_dealing.ChatDoc()
         self.classfy = Classfy()
-        # self.chat.ingest("E:\JHY\esp32\ESP-IDF\device_platform\项目手册.pdf")
-
-
     
     def deal_with_data(self, data: str):
         d = json.loads(data.replace("'", "\""), strict=False)

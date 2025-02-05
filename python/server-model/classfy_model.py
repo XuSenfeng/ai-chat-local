@@ -2,10 +2,11 @@ import torch
 # 文本分类模型微调的示例
 from transformers import AutoTokenizer
 from transformers import pipeline
+
 # 加载模型
 class Classfy:
     def __init__(self):
-        self.tokenizer = AutoTokenizer.from_pretrained("hfl/rbt3")
+        self.tokenizer = AutoTokenizer.from_pretrained("../classfy-model/hflrbt3")
         self.model = torch.load("../classfy-model/model_furina/model_2025_02_04_15_41_53.pth") # 加载模型
         self.model.eval()
         self.id2label = {0:"no", 1:"yes"}
