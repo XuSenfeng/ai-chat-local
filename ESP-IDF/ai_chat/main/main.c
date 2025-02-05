@@ -34,13 +34,10 @@ static const char *TAG = "AI_CHAT_EXAMPLE";
 
 char *baidu_access_token = NULL;
 
-#define CONFIG_WIFI_SSID            "jiao"            // �����޸ĳ��Լ���wifi����
-#define CONFIG_WIFI_PASSWORD        "11111111"            // �����޸ĳ��Լ���wifi����
-#define CONFIG_BAIDU_ACCESS_KEY     "tLfDnkpqLoE0dvjlSjOc1B6y"            // �����޸ĳ��Լ��İٶ�API Key
-#define CONFIG_BAIDU_SECRET_KEY     "jh85lHQQ1kaN5HT9AjI10CnOT48YHkMz"            // �����޸ĳ��Լ��İٶ�Secret Key
-// �������xxx�滻���Լ���token_key
-const char * minimax_key = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJHcm91cE5hbWUiOiLnhKbmtanmtIsiLCJVc2VyTmFtZSI6IueEpua1qea0iyIsIkFjY291bnQiOiIiLCJTdWJqZWN0SUQiOiIxNzkzMjY2NTE2OTU5OTY5Nzk4IiwiUGhvbmUiOiIxODc5MDY3NjMzNSIsIkdyb3VwSUQiOiIxNzkzMjY2NTE2OTUxNTgxMTkwIiwiUGFnZU5hbWUiOiIiLCJNYWlsIjoiIiwiQ3JlYXRlVGltZSI6IjIwMjQtMTAtMjMgMjI6NTk6NTIiLCJpc3MiOiJtaW5pbWF4In0.q1BcT1DpyueDzdm47vSzom6mEU_Y3MwijUpf2jLnIyHP4V3a90_SCiL_WYxefZIsPo4KWrt9BJyTIx4VaS_M3DXB1EdNkfDKu4trkTyHpUSvU8OhvxdWTNtq13O5up5QpRBLKAK-XepQuB6wtsOOE6iPURLKR9URJiIBixC08GSM4p5aT1Kv4l9gRLP_fBWUBfkbwSkTsUU1hSqO3nBDXLJxsElivVbHOy5Sd91jd_MrC3-8zxacKl1HPq8nb4q0rAlTfTC0Z4XJRU4Vh07Zw13aMyrSpuLdd8jm6WB2XGobgLSOm5j6bpOD3DPGMKjtQKwRX7i8M9BW7DIRbJh6tA";
-
+#define CONFIG_WIFI_SSID            "jiao"            // 网络名称
+#define CONFIG_WIFI_PASSWORD        "11111111"            // 网络密码
+#define CONFIG_BAIDU_ACCESS_KEY     "xxx"            // 百度云的Access Key
+#define CONFIG_BAIDU_SECRET_KEY     "xxx"            // 百度云的Secret Key
 
 #define LCD_HOST  SPI2_HOST
 #define EXAMPLE_LCD_PIXEL_CLOCK_HZ     (20 * 1000 * 1000)

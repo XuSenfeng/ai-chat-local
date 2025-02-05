@@ -1,3 +1,5 @@
+# 文件处理的简单示例
+
 from langchain_openai import ChatOpenAI,OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader,TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter

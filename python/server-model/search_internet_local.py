@@ -1,12 +1,13 @@
+# 使用本地模型联网获取信息(使用ollama的chat接口, 实际未采用)
 from langchain_community.tools.tavily_search import TavilySearchResults
 import ollama
 import os
 import yfinance as yf
-os.environ["TAVILY_API_KEY"] = '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'
+os.environ["TAVILY_API_KEY"] = 'xxx'
 os.environ["LANGSMITH_TRACING"]='true'
 os.environ["LANGSMITH_ENDPOINT"]="https://api.smith.langchain.com"
 os.environ["LANGSMITH_PROJECT"]="test"
-os.environ["LANGSMITH_API_KEY"] = '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'
+os.environ["LANGSMITH_API_KEY"] = 'xxx'
 
 # 官网的示例
 """
