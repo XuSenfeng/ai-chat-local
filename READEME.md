@@ -10,6 +10,10 @@
 
 [XuSenfeng/ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://github.com/XuSenfeng/ai-chat-local)
 
+国内地址: [ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://gitee.com/XuSenfeng/ai-chat-local)
+
+视频教程: [[开源/教程\]使用本地deepseek模型+嘉立创esp32搭建自己的语音助手（可处理文件以及联网获取信息）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gZPye2E57/?spm_id_from=333.1387.homepage.video_card.click&vd_source=3771cc8df803eed7244034a762706c24)
+
 ## Windows环境搭建
 
 ### 模型
@@ -474,6 +478,16 @@ Langsmith 是一家专注于自然语言处理（NLP）和人工智能（AI）�
 [立创·实战派ESP32-C3 手把手带你拥有项目经验](https://www.bilibili.com/list/watchlater?oid=1902511701&bvid=BV1Jm411r7zz&spm_id_from=333.788.top_right_bar_window_view_later.content.click&p=18)
 
 ## 开发板部分
+
+### 环境
+
+使用esp-idf-5.1.5, 给两个网上的教程(我自己搭建的比较早, 忘记了实际用的哪一个了)
+
+[Windows：VS Code IDE安装ESP-IDF【保姆级】_windows vscode安装esp-idf-CSDN博客](https://blog.csdn.net/zsyf33078/article/details/133834900)
+
+[如何在vscode下配置esp-adf的开发环境_vscode 怎么添加esp adf-CSDN博客](https://blog.csdn.net/SpacePotato/article/details/136034028)
+
+### 代码
 
 这里使用的是嘉立创的[esp32c3的开发板](https://wiki.lckfb.com/zh-hans/szpi-esp32c3/beginner/comprehensive-routines.html#第18章-桌面对话助手), 在之前的chat-ai上面进行少部分改动
 
