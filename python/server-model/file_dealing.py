@@ -11,7 +11,7 @@ from langchain.schema.output_parser import StrOutputParser
 import os
 
 os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
-os.environ["OPENAI_API_KEY"] = "sk-aDGXndwdtlbhyC1pmepw4zpqHgYkgfBh4Ayhgua829avT01l"
+os.environ["OPENAI_API_KEY"] = "xxx"
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
