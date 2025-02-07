@@ -3,11 +3,10 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 import ollama
 import os
 import yfinance as yf
-os.environ["TAVILY_API_KEY"] = 'xxx'
+import API
 os.environ["LANGSMITH_TRACING"]='true'
 os.environ["LANGSMITH_ENDPOINT"]="https://api.smith.langchain.com"
 os.environ["LANGSMITH_PROJECT"]="test"
-os.environ["LANGSMITH_API_KEY"] = 'xxx'
 
 # 官网的示例
 """

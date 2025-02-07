@@ -3,28 +3,12 @@
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_openai import ChatOpenAI
-import os
-
-os.environ["TAVILY_API_KEY"] = ''
-os.environ["LANGSMITH_API_KEY"] = ''
-os.environ["OPENAI_API_KEY"] = ""
-# 使用的不是文档里面免费的API时候可能需要更改
-os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
-
-
-os.environ["LANGSMITH_TRACING"]='true'
-os.environ["LANGSMITH_ENDPOINT"]="https://api.smith.langchain.com"
-os.environ["LANGSMITH_PROJECT"]="test"
-os.environ['USER_AGENT'] = ""
-
-
-
 from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain import hub
 
-file_path="../../对话助手.pdf"
+file_path="../../README.pdf"
 
 
 class search_Moel:
