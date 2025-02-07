@@ -396,7 +396,39 @@ zipp                                     3.21.0
 zstandard                                0.23.0
 ```
 
+### 数据库
 
+[MySQL :: Download MySQL Community Server (Archived Versions)](https://downloads.mysql.com/archives/community/)
+
+创建配置文件my.ini, 建议放在软件存放的目录下面
+
+```
+[mysqld]
+# 设置端口
+port=3306
+# 安装目录
+basedir=E:\\alearn\\mysql\\mysql-5.7.31-winx64
+# 创建的数据
+datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
+```
+
+> 最基础的配置, 使用3306端口
+
+输入命令`mysqld.exe --initialize-insecure`   使用管理员权限
+
+`mysqld.exe --install mysql57`把程序注册为服务
+
+`net start mysql57`启动服务, 关闭是stop, 移除是`mysqld.exe --remove mysql57`
+
+#### 测试
+
+使用mysql.exe文件
+
+`mysql.exe -h 127.0.0.1 -P 3306 -u root -p`, 设置IP, 端口以及密码, 默认没有密码回车即可
+
+![image-20250206135614929](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502061356139.png)
+
+使用`show databases;`查看当前的数据库
 
 ## 代码实现
 

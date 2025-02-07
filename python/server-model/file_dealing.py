@@ -8,10 +8,9 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
-import os
+import API
 
-os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
-os.environ["OPENAI_API_KEY"] = "xxx"
+
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -67,6 +66,7 @@ class ChatDoc:
 
 
 if __name__ == "__main__":
+    API.init_API()
     chat = ChatDoc()
-    chat.ingest("../../对话助手.pdf") # 这里使用你的文件路径
+    chat.ingest("../../README.pdf") # 这里使用你的文件路径
     print(chat.ask("这是一个什么项目?"))
