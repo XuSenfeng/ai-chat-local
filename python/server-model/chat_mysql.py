@@ -1,8 +1,7 @@
 import pymysql
 
 class Chat_MySQL:
-    def __init__(self, user_id):
-        self.user_id = user_id
+    def __init__(self):
         self.connection = pymysql.connect(
             host='localhost',
             port=3306, 
@@ -19,31 +18,50 @@ class Chat_MySQL:
             self.connection.commit()
         # 进入使用的数据库
         self.cursor.execute('use chat_ai')
-        self.cursor.execute('show tables') # 获取当前的表的列表
-        result = self.cursor.fetchall()
 
-        # 检查表是否存在这个用户的聊天记录表
-        if ('chat_history%d' % self.user_id,) not in result:
+
+    def is_exist(self, user_id: int):
+        self.cursor.execute('show tables')
+        result = self.cursor.fetchall()
+        if ('user_%d' % user_id,) in result:
+            return True
+        return False
+    
+    # 查看是否存在用户的聊天记录表, 如果不存在则可以创建
+    def create_table(self, user_id: int):
+        
+        if not self.is_exist(user_id):
             # 创建表
-            print('create table chat_history for user %d' % self.user_id)
-            self.cursor.execute('create table chat_history%d ('
+            print('create table chat_history for user %d' % user_id)
+            self.cursor.execute('create table user_%d ('
                                 'chat_id int primary key auto_increment,'
                                 'chat_history varchar(10240),'
-                                'chat_user varchar(20))default charset=utf8;' % self.user_id)
+                                'chat_user varchar(20))default charset=utf8;' % user_id)
             self.connection.commit()
+        else:
+            print('table chat_history for user %d already exist' % user_id)
 
-    def insert(self, user: str, chat_history: str):
+    def close(self):
+        self.cursor.close()
+        self.connection.close()
+        
+    # 插入聊天记录
+    def insert(self, user_id: int, user_name: str, chat_history: str):
         chat_history = chat_history.replace('"', "'")
-        # self.cursor.execute('insert into chat_history%s (chat_history, chat_user) values (%s, %s)', [self.user_id, chat_history, user])
-        self.cursor.execute(f'insert into chat_history{self.user_id} (chat_history, chat_user) values (%s, %s)', (chat_history, user))
+        # self.cursor.execute('insert into user_%s (chat_history, chat_user) values (%s, %s)', [self.user_id, chat_history, user])
+        self.cursor.execute(f'insert into user_{user_id} (chat_history, chat_user) values (%s, %s)', (chat_history, user_name))
         self.connection.commit()
 
-    def select(self):
-        self.cursor.execute('select * from chat_history%s', [self.user_id])
+    def select(self, user_id: int):
+        self.cursor.execute('select * from user_%s', [user_id])
         result = self.cursor.fetchall()
         return result
-
-
+    
+    def get_history_len(self, user_id: int):
+        self.cursor.execute('select count(chat_id) from user_%s', [user_id])
+        result = self.cursor.fetchall()
+        return result[0][0]
+    
     def __del__(self):
         self.cursor.close()
         self.connection.close()
@@ -51,9 +69,17 @@ class Chat_MySQL:
 
 
 if __name__ == '__main__':
-    mysql = Chat_MySQL(2)
-    # mysql.insert('hello world')
-    # mysql.insert('user', 'hello world2')
-    # mysql.insert('hello world3')
-    print(mysql.select())
+    try:
+        mysql = Chat_MySQL()
+        # mysql.insert(2, 'hello world')
+        if not mysql.is_exist(4):
+            print('table not exist')
+            mysql.create_table(4)
+        mysql.insert(4, 'user', 'hello world2')
+        # mysql.insert('hello world3')
+        # print(mysql.select())
+        print(mysql.get_history_len(4))
+        del mysql
+    except Exception as e:
+        print(e)
 

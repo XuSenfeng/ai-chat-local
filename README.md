@@ -6,13 +6,17 @@
 
 使用ollama实现本地模型的定制, 可以做到数据不泄露以及绕开检测的效果, 之后使用嘉立创的esp32开发板实现简单的对话助手
 
+视频教程: [[开源/教程\]使用本地deepseek模型+嘉立创esp32搭建自己的语音助手（可处理文件以及联网获取信息）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gZPye2E57/?spm_id_from=333.1387.homepage.video_card.click&vd_source=3771cc8df803eed7244034a762706c24)
+
++ v0.2
+
+加入数据库, 可以实现服务器重启聊天不丢失, 不同用户识别等
+
 同时接入本文档, 可以直接使用AI对话的方式进行文档处理
 
 [XuSenfeng/ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://github.com/XuSenfeng/ai-chat-local)
 
 国内地址: [ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://gitee.com/XuSenfeng/ai-chat-local)
-
-视频教程: [[开源/教程\]使用本地deepseek模型+嘉立创esp32搭建自己的语音助手（可处理文件以及联网获取信息）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1gZPye2E57/?spm_id_from=333.1387.homepage.video_card.click&vd_source=3771cc8df803eed7244034a762706c24)
 
 ## Windows环境搭建
 
@@ -400,6 +404,8 @@ zstandard                                0.23.0
 
 [MySQL :: Download MySQL Community Server (Archived Versions)](https://downloads.mysql.com/archives/community/)
 
+[视频教程](https://www.bilibili.com/video/BV1B34y1R7in/?spm_id_from=333.337.search-card.all.click)
+
 创建配置文件my.ini, 建议放在软件存放的目录下面
 
 ```
@@ -464,6 +470,22 @@ datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
 
 使用的代码是[小土堆](https://www.bilibili.com/list/watchlater?oid=74281036&bvid=BV1hE411t7RN&spm_id_from=333.788.top_right_bar_window_view_later.content.click)的课程示例代码里面的一个, 我自己构建了一个数据集, 用于区分是不是需要调用各种API接口
 
+#### 对话管理
+
+[OpenAI system,user,assistant 角色详解_openai system role-CSDN博客](https://blog.csdn.net/Tory2/article/details/132823810)
+
+使用mysql数据库记录不同用户的通话记录, 在加载数据某一个用户的时候进行加载过去的聊天记录(这里没有记录搜索的记录), 为不同的用户建立一个自己的table, 同意的命名方式是chat_history用户id, 这里的用户id是在第一次连接到服务器的时候分配的, 使用的当前时间作为用户的id, 同时检测数据库里面是否已经有这个用户的存在
+
+在实际处理的时候为了避免在用户对话的时候频繁的进行数据在数据库里面的更新, 这里使用一个timer进行维护每一个用户的对话, 如果一个用户在连接以后的很长一段时间都没有再次对话, 就把这个用户剔除, 下次连接的时候从数据库里面获取使用的数据
+
+### 使用电脑实现
+
+[GitCode - 全球开发者的开源社区,开源代码托管平台](https://gitcode.com/gh_mirrors/ol/ollama-voice/?utm_source=highuv_users_article_gitcode&index=top&type=card&&isLogin=1)
+
+[开源项目ollama-voice安装和配置指南-CSDN博客](https://blog.csdn.net/gitblog_01298/article/details/143044135)
+
+使用自己的电脑实现语音识别
+
 ### API获取
 
 #### USER_AGENT
@@ -526,6 +548,14 @@ Langsmith 是一家专注于自然语言处理（NLP）和人工智能（AI）�
 > 如果有需求, 之后会加上图形界面联网以及设置主机ip, 现在是在代码里面写死的需要重新编译一遍, 以及对显示进行优化之类的(目前超长文本显示有问题)以及这个语音转文本和文本转语音...质量真的垃圾
 
 主要改的位置是在和之前的AI对话的地方, 把和网络的对话位置改为了和本地主机的对话
+
+之后新加用户识别功能, 实际是在启动时候尝试从nvs分区里面读取用户的id, 如果用户的id不存在, 使用-1作为自己的id, 之后和服务器对话的时候返回自己的id, 记录在nvs分区里面, 以后的连接都可以使用这个id获取自己的聊天记录
+
+# 感谢支持
+
+希望大家可以加入这个项目的开发以及提出建议, 你的建议可以鼓励我更好的走下去, 如果可以给点资金资助会让我更有动力的呦~
+
+![image-20250208164716689](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502081647127.png)
 
 
 
