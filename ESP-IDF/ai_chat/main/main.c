@@ -34,10 +34,11 @@ static const char *TAG = "AI_CHAT_EXAMPLE";
 
 char *baidu_access_token = NULL;
 
-#define CONFIG_WIFI_SSID            "jiao"            // 网络名称
-#define CONFIG_WIFI_PASSWORD        "11111111"            // 网络密码
-#define CONFIG_BAIDU_ACCESS_KEY     "xxx"            // 百度云的Access Key
-#define CONFIG_BAIDU_SECRET_KEY     "xxx"            // 百度云的Secret Key
+#define CONFIG_WIFI_SSID            "jiao"            // wifiSSID
+#define CONFIG_WIFI_PASSWORD        "11111111"            // Wifi密码
+#define CONFIG_BAIDU_ACCESS_KEY     "xxx"            // 百度云API Key
+#define CONFIG_BAIDU_SECRET_KEY     "xxx"            // 
+
 
 #define LCD_HOST  SPI2_HOST
 #define EXAMPLE_LCD_PIXEL_CLOCK_HZ     (20 * 1000 * 1000)
@@ -315,11 +316,11 @@ void ai_chat_task(void *pv)
     vTaskDelete(NULL);
 }
 
-
-/**************************** 主函�? **********************************/
+nvs_handle my_handle;   
+/**************************** 主函数 **********************************/
 void app_main(void)
 {
-    /************ 初�?�化NVS *************/
+    /************ 初始化化NVS *************/
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES) {
         // NVS partition was truncated and needs to be erased
@@ -329,15 +330,32 @@ void app_main(void)
     }
 
     ESP_ERROR_CHECK(esp_netif_init());
+    // 读取用户ID 
+    err = nvs_open("ai_chat", NVS_READWRITE, &my_handle);
+    if (err != ESP_OK) 
+    {
+        ESP_LOGE(TAG, "opening NVS Error (%s)!\n", esp_err_to_name(err));
+    }
+    int32_t nvs_i32;
+    extern int user_id;
+    err = nvs_get_i32(my_handle, "user_id", &nvs_i32);
+    if (err != ESP_OK) 
+    {
+        ESP_LOGE(TAG, "reading NVS Error (%s)!\n", esp_err_to_name(err));
+        user_id = -1;
+    }else
+    {
+        user_id = nvs_i32;
+    }
 
-    /*******  初�?�化ES8311音�?�芯�? (注意：这�?里面会初始化I2C 后面初�?�化触摸屏就不用再初始化I2C�?)  ********/
+    /*******  初始化化ES8311音频芯片 (注意：这里面会初始化I2C 后面初始化触摸屏就不用再初始化I2C)  ********/
     ESP_LOGI(TAG, "[ 2 ] Start codec chip");
     audio_board_handle_t board_handle = audio_board_init();
     audio_hal_ctrl_codec(board_handle->audio_hal, AUDIO_HAL_CODEC_MODE_BOTH, AUDIO_HAL_CTRL_START);
     es8311_codec_set_voice_volume(50); // 最大音�?
     es8311_pa_power(false);  // 关闭声音
 
-    /************* 初�?�化液晶�?  ************/
+    /************* 初始化化液晶屏  ************/
     static lv_disp_draw_buf_t disp_buf; 
     static lv_disp_drv_t disp_drv;      
 
