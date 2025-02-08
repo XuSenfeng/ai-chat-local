@@ -1,6 +1,8 @@
 # 对话助手
 
 > 做的练手的小玩意, 如有更好的实现方案欢迎交流1458612070@qq.com
+> **给个![0B533B9D](https://github.com/user-attachments/assets/83214bfa-0ffd-49ad-b87f-9b5c4d3ca938)吧
+**
 
 ## 简介
 
