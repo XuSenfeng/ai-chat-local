@@ -1,0 +1,3 @@
+[submodule "ESP-IDF/xiao-zhi"]
+	path = ESP-IDF/xiao-zhi
+	url = git@github.com:XuSenfeng/ai-chat-local-xiaozhi.git

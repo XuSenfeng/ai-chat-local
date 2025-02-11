@@ -1,4 +1,7 @@
 ESP-IDF/ai_chat/managed_components
+ESP-IDF/ai_chat/build
+ESP-IDF/xiaozhi-esp32/managed_components
+ESP-IDF/xiaozhi-esp32/build
 
 # Prerequisites
 *.d
