@@ -7,9 +7,12 @@ from langchain_community.document_loaders import WebBaseLoader, PyPDFLoader
 from langchain_community.vectorstores import FAISS
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain import hub
-
+import os
 file_path="../../README.pdf"
-
+os.environ["OPENAI_BASE_URL"] = "https://api.chatanywhere.tech"
+os.environ["LANGSMITH_TRACING"]='true'
+os.environ["LANGSMITH_ENDPOINT"]="https://api.smith.langchain.com"
+os.environ["LANGSMITH_PROJECT"]="test"
 
 class search_Moel:
     # 初始化文件处理工具
