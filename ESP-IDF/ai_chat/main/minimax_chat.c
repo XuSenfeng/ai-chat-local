@@ -37,7 +37,6 @@
 
 static const char *TAG = "MINIMAX_CHAT";
 
-extern const char * minimax_key;
 extern nvs_handle my_handle;  
 #define PSOT_DATA    "{\
 \"messages\":[{\"sender_type\":\"USER\", \"user_id\":%d,\"sender_name\":\"test\",\"text\":\"%s\"}]\
@@ -70,7 +69,6 @@ char *minimax_chat(const char *text)
     // POST
     esp_http_client_set_method(client, HTTP_METHOD_POST);
     esp_http_client_set_header(client, "Content-Type", "application/json");
-    esp_http_client_set_header(client, "Authorization", minimax_key);
 
     if (esp_http_client_open(client, post_len) != ESP_OK) {
         ESP_LOGE(TAG, "Error opening connection");

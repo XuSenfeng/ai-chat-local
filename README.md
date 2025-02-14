@@ -1,8 +1,12 @@
 # 对话助手
 
+> 作者: Xvsenfeng
+>
+> 更新时间: 2025-2-14
+>
 > 做的练手的小玩意, 如有更好的实现方案欢迎交流1458612070@qq.com
 > **给个![0B533B9D](https://github.com/user-attachments/assets/83214bfa-0ffd-49ad-b87f-9b5c4d3ca938)吧
-**
+> **
 
 ## 简介
 
@@ -19,6 +23,30 @@
 [XuSenfeng/ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://github.com/XuSenfeng/ai-chat-local)
 
 国内地址: [ai-chat-local: 使用esp32+ollama实现本地模型的对话以及联网+工具调用](https://gitee.com/XuSenfeng/ai-chat-local)
+
++ v0.3
+
+[小智本地服务器开源项目](https://github.com/xinnan-tech/xiaozhi-esp32-server)
+
+加入[小智ai](https://xiaozhi.me/)的处理, 保留小智的语音识别以及语音语音合成(这种有情感的[语音合成](https://www.volcengine.com/docs/6561/1257543)个人好像无法使用), 但是加入一个和之前服务器连接的选项
+
+这部分的处理需要使用LCD进行显示, 同时对按钮进行重写, 所以实际使用的时候需要看一下你的开发板使用的是不是LCD模块, 以及开发板是不是有一个按钮
+
+> 理论所有符合的板子都可以, 但是我只有嘉立创的两个开发板, 所以只测试了这两个
+
+<img src="https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141820261.png" alt="image-20250214182013339" style="zoom:150%;" />
+
+> 实际是把对话发给本地的处理器进行工具调用, 使用返回的结果进行显示, 因为小智的模型语音识别效果比百度的要好, 同时模型等实际使用也还可以, 所以这里添加的是服务器端工具调用部分, 联网等
+>
+> [小智 AI 聊天机器人控制台](https://xiaozhi.me/)
+>
+> 示例:
+>
+> ```
+> 如果是遇到类似**查手册, 搜索网络新闻之类的无法直接处理的问题, 告诉他会使用其它工具搜索, 单机按键即可获取实际的信息, 请稍等一下查看工具显示页面**!!! 示例: 用户: 帮我看一下手册是谁写的 回答: "我会使用工具, 请你单击按钮获取消息"
+> ```
+>
+> 
 
 ## Windows环境搭建
 
@@ -480,6 +508,10 @@ datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
 
 在实际处理的时候为了避免在用户对话的时候频繁的进行数据在数据库里面的更新, 这里使用一个timer进行维护每一个用户的对话, 如果一个用户在连接以后的很长一段时间都没有再次对话, 就把这个用户剔除, 下次连接的时候从数据库里面获取使用的数据
 
+#### v0.3
+
+更改了一下返回的数据, 返回值加入tool参数([详细](# 自己代码移植)), 同时返回的数据使用每12个一行, 使得开发板的显示更加合理, 同时移除本地的对话处理机制
+
 ### 使用电脑实现
 
 [GitCode - 全球开发者的开源社区,开源代码托管平台](https://gitcode.com/gh_mirrors/ol/ollama-voice/?utm_source=highuv_users_article_gitcode&index=top&type=card&&isLogin=1)
@@ -543,6 +575,20 @@ Langsmith 是一家专注于自然语言处理（NLP）和人工智能（AI）�
 
 [如何在vscode下配置esp-adf的开发环境_vscode 怎么添加esp adf-CSDN博客](https://blog.csdn.net/SpacePotato/article/details/136034028)
 
++ v0.3
+
+![image-20250214183043927](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141830032.png)
+
+![image-20250214183117713](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141831819.png)
+
+C3
+
+![image-20250214190011692](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141900978.png)
+
+S3使用16M和无后缀的分区表partitions.csv
+
+> S3的板子需要开小智的语音唤醒, 不然效果....
+
 ### 代码
 
 这里使用的是嘉立创的[esp32c3的开发板](https://wiki.lckfb.com/zh-hans/szpi-esp32c3/beginner/comprehensive-routines.html#第18章-桌面对话助手), 在之前的chat-ai上面进行少部分改动
@@ -569,11 +615,65 @@ Langsmith 是一家专注于自然语言处理（NLP）和人工智能（AI）�
 
 返回消息如下
 
-`data_ret = {'result': '返回的对话', 'user_id': 你的id}`
+`data_ret = {'result': '返回的对话', 'user_id': 你的id}`, v0.3使用的格式如下, 加入一个参数判断是不是使用远程的工具`data_ret = {'tool': 0, 'user_id': -1, 'result': ''}`, 0没有使用, 1使用
+
+### v0.3
+
+主要是把工具调用的部分给小智的程序进行适配, 改写了其中一部分的代码, 在上面的配置里面进行勾选即可使用
+
+提示: 
+
+1. 短按进行显示文本框的切换, 长按进行小智原本的对话模型切换(停止对话和真是对话)
+2. 对话的时候把对话发送给服务器, 进行联网等处理, 但是小智的机器人并不清楚这部分处理, 所以最好加入一段提示词
+3. 由于小智本身的语音识别以及语音合成比较优秀, 所以直接使用他的实现, 但是小智的所有处理都是在服务器端, 不好拆分, 所以目前使用的他的模型, 这里提供一个小智的本地服务器开源项目, 可以使用这个跑本地模型
+
+> [小智本地服务器开源项目](https://github.com/xinnan-tech/xiaozhi-esp32-server)
+
+**具体实现**
+
+**注:**所有的部分可以使用`CONFIG_USE_CHAT_LOCAL`宏定义进行搜索
+
++ 修改配置文件, 加入自己的选项
+
+![image-20250214184101616](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141841760.png)
+
++ 在小智服务器返回的部分加入自己的处理程序(基本使用原本的代码)
+
+> 这部分处理在chat_ai_local文件夹里面
+
+修改如下:
+
+1. 读取nvs分区的部分使用小智的Setting部分代码
+2. 这里的服务器地址使用的是配置文件里面的部分
+3. 把原本的处理流程放在一个任务里面
+4. 通信加了一个tool参数的判断是不是要把数据进行LCD显示
+
++ 显示部分
+
+把原本的对话文本框改为两个(不同时显示), 小智的说话放在原本的文本框, 新的对话放在另一个文本框里面, 在判断按钮按下的时候进行文本框的切换
+
++ 开发板
+
+原本的短按检测切换模式换为长按, 短按改为文本框的切换
+
++ 更新
+
+关闭小智的OTC升级
+
+## TODU
+
++ 支持更多的物联网控制
++ 本地对话模型支持小智
 
 # 感谢支持
 
 希望大家可以加入这个项目的开发以及提出建议, 你的建议可以鼓励我更好的走下去, 如果可以给点资金资助会让我更有动力的呦~
+
+合作:
+
+![image-20250214190317635](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502141903760.png)
+
+资助:
 
 ![image-20250208164716689](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502081647127.png)
 

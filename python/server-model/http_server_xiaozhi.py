@@ -24,7 +24,7 @@ os.environ["LANGSMITH_PROJECT"]="test"
 
 
 # 192.168.188.165
-data_ret = {'result': '', 'user_id': 12}
+data_ret = {'tool': 0, 'user_id': -1, 'result': ''}
 def get_ip():
     # 获取本机所有 IP 地址
     hostname = socket.gethostname()
@@ -63,9 +63,18 @@ class http_chat_server:
         if self.classfy.classfy(d['messages'][0]['text'])[0]['label'] == 'yes':
             print("searching...")
             ret = self.agent_executor.search_func(d['messages'][0]['text'])
+            # 每15个字节的长度, 设置一个换行符
+            length = len(ret)
+            now = 0
+            while now < length:
+                ret = ret[:now+12] + '\n' + ret[now+12:]
+                now += 13
+                length += 1
+            data_ret['tool'] = 1
         else:
-            print("chatting...")
-            ret = self.chat_manage.chat(user_id, d['messages'][0]['text'])
+            print("chatting...") # 小智不需要对话模型
+            ret = "无工具调用"
+            data_ret['tool'] = 0
         print(ret)
         return ret
     
