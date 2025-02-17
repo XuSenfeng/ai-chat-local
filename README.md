@@ -470,6 +470,8 @@ datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
 
 ### 电脑端
 
+<img src="https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502171550598.png" alt="image-20250217155034422" style="zoom:200%;" />
+
 #### 模型联网
 
 + 本地(未采用)
@@ -618,6 +620,8 @@ S3使用16M和无后缀的分区表partitions.csv
 `data_ret = {'result': '返回的对话', 'user_id': 你的id}`, v0.3使用的格式如下, 加入一个参数判断是不是使用远程的工具`data_ret = {'tool': 0, 'user_id': -1, 'result': ''}`, 0没有使用, 1使用
 
 ### v0.3
+
+<img src="https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502171549783.png" alt="image-20250217154942611" style="zoom:200%;" />
 
 主要是把工具调用的部分给小智的程序进行适配, 改写了其中一部分的代码, 在上面的配置里面进行勾选即可使用
 
