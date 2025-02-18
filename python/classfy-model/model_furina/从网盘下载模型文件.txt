@@ -1,0 +1,4 @@
+https://pan.quark.cn/s/0d28fe813112
+
+两个model文件在ai-chat-local\python\classfy-model\model_furina文件夹里面, 可以选一个
+pytorch的在ai-chat-local\python\classfy-model\hflrbt3文件夹下面
