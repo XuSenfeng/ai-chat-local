@@ -51,10 +51,37 @@
 > 示例:
 >
 > ```
-> 如果是遇到类似**查手册, 搜索网络新闻之类的无法直接处理的问题, 告诉他会使用其它工具搜索, 单机按键即可获取实际的信息, 请稍等一下查看工具显示页面**!!! 示例: 用户: 帮我看一下手册是谁写的 回答: "我会使用工具, 请你单击按钮获取消息"
+> 如果是遇到类似**如果是遇到类似
+> **
+> 查手册, 搜索网络新闻之类的无法直接处理的问题, 告诉他你会使用其它工具搜索, 单机按键即可获取实际的信息, 请稍等一下查看工具显示页面
+> ** 
+> **
+> 示例: 用户: 帮我看一下手册是谁写的 
+> 回答: "我会使用工具, 请你单击按钮获取我哦查到的手册内容"
+> 示例: 用户: 帮我查看一下实时的新闻 
+> 回答: "我会使用工具, 点击按钮你就可以获取到我查询的新闻结果"
+> **查手册, 搜索网络新闻之类的无法直接处理的问题, 告诉他会使用其它工具搜索, 单机按键即可获取实际的信息, 请稍等一下查看工具显示页面**!!! 示例: 用户: 帮我看一下手册是谁写的 回答: "我会使用工具, 请你单击按钮获取消息"
 > ```
 >
 > 
+
++ v0.4
+
+可以使用Dify图形化配置使用
+
+## 不同版本的文件
+
+### v0.1 0.2
+
+使用ESP-IDF文件夹下面的chat_ai文件, 以及python文件夹的classfy-model和server-model
+
+### v0.3
+
+使用python文件夹的classfy-model和server-model和ESP-IDF的xiaozhi文件
+
+### v0.4
+
+只使用ESP-IDF的xiaozhi文件夹
 
 ## Windows环境搭建
 
@@ -474,6 +501,44 @@ datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
 
 使用`show databases;`查看当前的数据库
 
+### v4.0 Dify
+
+[Dify.AI](https://dify.ai/zh)官网, 可以在这里构建一个简单的项目, 但是如果需求比较大需要充值, 建议使用服务器进行部署, 详细的[教程](https://www.bilibili.com/video/BV1LFwNeKEkq/?spm_id_from=333.1391.0.0&p=12)
+
+#### 本地部署
+
+参考教程：https://www.bilibili.com/video/BV1iEqSYeE5A/?spm_id_from=333.1391.0.0
+
+> 目前docker的部署网络我还没有整清楚, 所以本地的暂时不能使用, 但是可以使用官网以及服务器部署的
+
+首先需要使用docker容器搭建环境, 下载安装以后重启, 重启以后会出现界面让你登录
+
+在cmd输入命令`docker`查看是不是安装成功
+
+安装以后下载dify的仓库, 可以使用`git clone https://github.com/langgenius/dify.git`下载, 或者在[仓库下载](https://github.com/langgenius/dify)zip
+
+> 下载的时候使用release版本, [Release v0.15.3 · langgenius/dify](https://github.com/langgenius/dify/releases/tag/0.15.3)
+
+解压以后进入目录, 按照[手册](https://github.com/langgenius/dify/blob/main/README_CN.md)安装
+
+```bash
+cd docker
+cp .env.example .env
+docker compose up -d
+```
+
+#### 模型
+
+推荐使用硅基流动的API[SiliconFlow, Accelerate AGI to Benefit Humanity](https://siliconflow.cn/zh-cn/)
+
+也可以使用本地的ollama模型, 输入的地址是`http://host.docker.internal:11434`
+
+下面是使用API进行通信的数据格式样例
+
+![image-20250219151230933](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502191512093.png)
+
+![image-20250219151217350](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502191512563.png)
+
 ## 代码实现
 
 ### 电脑端
@@ -521,6 +586,14 @@ datadir=E:\\alearn\\mysql\\mysql-5.7.31-winx64\\data
 #### v0.3
 
 更改了一下返回的数据, 返回值加入tool参数([详细](# 自己代码移植)), 同时返回的数据使用每12个一行, 使得开发板的显示更加合理, 同时移除本地的对话处理机制
+
+#### v0.4 Dify
+
+实际使用的模型=>gpt3, 使用的搜索引擎Tavily
+
++ 整体流程
+
+图形界面设置一下输入的参数, 增加一个text, 之后使用一个分类器进行区分不同的语句的需求, 区分以后不需要处理的返回原数据, 需要获取信息的而联网搜索一下或者读取文档, 把数据传入大模型处理返回
 
 ### 使用电脑实现
 
@@ -671,6 +744,18 @@ S3使用16M和无后缀的分区表partitions.csv
 + 更新
 
 关闭小智的OTC升级
+
+### v0.4 Dify
+
+设置的时候打开DIFY的选项, 设置一下你的网页API地址以及你的KEY
+
+![image-20250219195033325](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502191950490.png)
+
+需要打开以下的两个设置, 跳过tls认证
+
+![image-20250219194919030](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502191949209.png)
+
+实际实现是把之前的http服务器的接口改了一下, 以及加两个处理函数, 一个是把Unicode编码改为utf-8, 另一个是把输出每12个字符加一个回车, 以免显示出问题
 
 ## TODU
 

@@ -1,0 +1,499 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: esp32
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1739947041857-source-1739946194201-target
+      selected: false
+      source: '1739947041857'
+      sourceHandle: source
+      target: '1739946194201'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: 1739946194201-source-1739947401945-target
+      selected: false
+      source: '1739946194201'
+      sourceHandle: source
+      target: '1739947401945'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: question-classifier
+      id: 1739946173294-source-1739947463945-target
+      selected: false
+      source: '1739946173294'
+      sourceHandle: source
+      target: '1739947463945'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1739947463945-1-1739947041857-target
+      selected: false
+      source: '1739947463945'
+      sourceHandle: '1'
+      target: '1739947041857'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1739947463945-2-1739947625799-target
+      source: '1739947463945'
+      sourceHandle: '2'
+      target: '1739947625799'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: tool
+      id: 1739947625799-source-1739947738490-target
+      source: '1739947625799'
+      sourceHandle: source
+      target: '1739947738490'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: llm
+      id: 1739947738490-source-1739947771695-target
+      source: '1739947738490'
+      sourceHandle: source
+      target: '1739947771695'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: 1739947771695-source-1739947813182-target
+      source: '1739947771695'
+      sourceHandle: source
+      target: '1739947813182'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: question-classifier
+        targetType: end
+      id: 1739947463945-1739947519960-1739947863180-target
+      source: '1739947463945'
+      sourceHandle: '1739947519960'
+      target: '1739947863180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 客户文本
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: text
+      height: 90
+      id: '1739946173294'
+      position:
+        x: 75
+        y: 291
+      positionAbsolute:
+        x: 75
+        y: 291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1739947041857'
+          - result
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-3.5-turbo-1106
+          provider: openai
+        prompt_template:
+        - id: 20c84b02-51dd-4c82-8437-3bffc0255285
+          role: system
+          text: '请你使用搜索到的内容(在<context> </context>里面)回答用户的问题: {{#1739946173294.text#}}
+
+            <context>
+
+            {{#context#}}
+
+            </context>
+
+            + 如果你不知道, 回答不知道
+
+            + 不要编造不存在的事情
+
+            '
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1739946194201'
+      position:
+        x: 1269.479000133355
+        y: 291
+      positionAbsolute:
+        x: 1269.479000133355
+        y: 291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        dataset_ids:
+        - ee3fe5dd-d575-48a6-ba9b-0ebf91c6929d
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: siliconflow
+          top_k: 4
+        query_variable_selector:
+        - '1739946173294'
+        - text
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 92
+      id: '1739947041857'
+      position:
+        x: 789
+        y: 291
+      positionAbsolute:
+        x: 789
+        y: 291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1739946194201'
+          - text
+          variable: text
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1739947401945'
+      position:
+        x: 1807.8350791281675
+        y: 296.2233033797768
+      positionAbsolute:
+        x: 1807.8350791281675
+        y: 296.2233033797768
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        classes:
+        - id: '1'
+          name: esp32对话助手项目相关问题, 需要查手册， 如：项目的作者，项目的基础功能，项目的使用等
+        - id: '2'
+          name: 实时问题, 如新闻, 天气等需要使用网络搜索
+        - id: '1739947519960'
+          name: 日常对话问题, 无需调用, 如询问心情、在做什么、喜好之类的
+        desc: ''
+        instructions: ''
+        model:
+          completion_params:
+            temperature: 0.5
+          mode: chat
+          name: gpt-3.5-turbo-1106
+          provider: openai
+        query_variable_selector:
+        - '1739946173294'
+        - text
+        selected: false
+        title: 问题分类器
+        topics: []
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 276
+      id: '1739947463945'
+      position:
+        x: 489
+        y: 291
+      positionAbsolute:
+        x: 489
+        y: 291
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-3.5-turbo-1106
+          provider: openai
+        prompt_template:
+        - role: system
+          text: '用户输入的内容是: {{#1739946173294.text#}}
+
+            请你根据这个问题输出一个搜索使用的关键词'
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1739947625799'
+      position:
+        x: 789
+        y: 414.91907859474725
+      positionAbsolute:
+        x: 789
+        y: 414.91907859474725
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: tavily
+        provider_name: tavily
+        provider_type: builtin
+        selected: false
+        title: Tavily Search
+        tool_configurations:
+          days: 3
+          exclude_domains: null
+          include_answer: 0
+          include_domains: null
+          include_image_descriptions: 0
+          include_images: 0
+          include_raw_content: 0
+          max_results: 1
+          search_depth: basic
+          topic: general
+        tool_label: Tavily Search
+        tool_name: tavily_search
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#1739947625799.text#}}'
+        type: tool
+      height: 324
+      id: '1739947738490'
+      position:
+        x: 1101.5276522233085
+        y: 439.42319857997626
+      positionAbsolute:
+        x: 1101.5276522233085
+        y: 439.42319857997626
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1739947738490'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-3.5-turbo-1106
+          provider: openai
+        prompt_template:
+        - id: 6d7867cb-528e-40a3-a2a5-24b2d146f2c6
+          role: system
+          text: '请你使用搜索到的内容(在<context> </context>里面)回答用户的问题: {{#1739946173294.text#}}
+
+            <context>
+
+            {{#context#}}
+
+            </context>
+
+            + 如果你不知道, 回答不知道
+
+            + 不要编造不存在的事情'
+        selected: false
+        title: LLM 3
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1739947771695'
+      position:
+        x: 1436
+        y: 448
+      positionAbsolute:
+        x: 1436
+        y: 448
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1739947771695'
+          - text
+          variable: text
+        - value_selector:
+          - '1739947738490'
+          - text
+          variable: files
+        selected: false
+        title: 结束 2
+        type: end
+      height: 116
+      id: '1739947813182'
+      position:
+        x: 1807.8350791281675
+        y: 461.05825844944184
+      positionAbsolute:
+        x: 1807.8350791281675
+        y: 461.05825844944184
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1739946173294'
+          - text
+          variable: text
+        selected: true
+        title: 结束 3
+        type: end
+      height: 90
+      id: '1739947863180'
+      position:
+        x: 1401.5276522233085
+        y: 848.1170667233392
+      positionAbsolute:
+        x: 1401.5276522233085
+        y: 848.1170667233392
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: -1071.2641868787268
+      y: -474.86488735532157
+      zoom: 1.5157165665103987

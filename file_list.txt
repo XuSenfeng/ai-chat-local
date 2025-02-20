@@ -1,3 +1,0 @@
-python/classfy-model/hflrbt3/pytorch_model.bin
-python/classfy-model/model_furina/model_2025_02_04_15_41_53.pth
-python/classfy-model/model_furina/model_2025_02_05_12_07_44.pth
