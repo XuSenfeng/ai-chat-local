@@ -774,6 +774,9 @@ S3使用16M和无后缀的分区表partitions.csv
 
 ![image-20250208164716689](https://picture-01-1316374204.cos.ap-beijing.myqcloud.com/picture/202502081647127.png)
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=XuSenfeng/ai-chat-local&type=Date)](https://star-history.com/#XuSenfeng/ai-chat-local&Date)
 
 
 
